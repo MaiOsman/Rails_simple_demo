@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Products</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Category</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.try(:category).try(:name) %></td>
+        <td><%= link_to 'Show', product %></td>
+
+        <% if current_user %>
+          <% unless current_user.products.include?(product) %>
+        <td>
+          <%= link_to 'Add to favorite', add_to_fav_product_path(product), method: :put %>
+        </td>
+          <% else %>
+            <td>
+              <%= link_to 'Remove from favorite', delete_from_fav_product_path(product), method: :put %>
+            </td>
+          <% end %>
+        <% end %>
+
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Back to home', controller: 'welcome' %><br><br>
